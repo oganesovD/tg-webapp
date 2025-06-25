@@ -1,33 +1,19 @@
-"use client"
+'use client'
 
-import { useEffect, useState } from "react"
-import { useSearchParams } from "next/navigation"
-import { supabase } from "@/lib/supabase"
-import ExpenseCard from "@/components/ExpenseCard"
-import { Expense } from "@/types"
+import { useSearchParams } from 'next/navigation'
+import { useEffect } from 'react'
 
-export default function Page() {
+export default function Home() {
   const params = useSearchParams()
-  const userId = params.get("user_id")
-  const [expenses, setExpenses] = useState<Expense[]>([])
+  const userId = params.get('user_id')
 
   useEffect(() => {
-    if (!userId) return
-
-    supabase
-      .from("expenses")
-      .select("*")
-      .eq("user_id", userId)
-      .order("date", { ascending: false })
-      .then(({ data }) => {
-        if (data) setExpenses(data)
-      })
+    console.log("User ID:", userId)
   }, [userId])
 
   return (
     <main className="p-4">
-      <h1 className="text-xl font-bold mb-4">Мои траты</h1>
-      {expenses.map((e) => <ExpenseCard key={e.id} expense={e} />)}
+      <h1 className="text-xl font-bold">Привет, пользователь {userId}</h1>
     </main>
   )
 }
